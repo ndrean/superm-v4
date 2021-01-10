@@ -40,7 +40,6 @@ class SaveToRedis < Sinatra::Base
   
   get '/' do
    data = $redis.get("cart")
-   puts data
    json({data: data})
   end
 
