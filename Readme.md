@@ -12,11 +12,13 @@ We have the following directory structure:
  |-/backend (Gemfile, Puma app-sever, Sinatra api)
 ```
 
-We will run `yarn start` (React) and `bundle exec Puma` (Sinatra). To be able to run these two processes from another folder than the standard one, we will use **Overmind**. We will also create a **/bin** folder in the backend folder.
+We can run separatly `yarn start` (React) and `bundle exec Puma` (the app-server that serves the Sinatra/Ruby api).
+
+We will run both processes at once with **overmind**. To run these two processes from another folder than the standard one, we will create a **/bin** folder in the backend folder, and use the **-cwd** flag for `yarn`.
 
 ### Binstubs
 
-To run bundler from another direcory, create a **/bin** folder with:
+To run `bundler` from another direcory, create a **/bin** folder:
 
 ```bash
 $> bundle install --binstubs
@@ -28,9 +30,9 @@ This creates a directory (defaults to ~/bin) and place any executables from the 
 
 - to use, do `overmind start`
 - you can also specify the name of the Profile with the flag `-f Procfile`.
-- To start a single process, use **-l** flag
-- To specify the port for a specific process, do **-p $PORT** in the process
-- To run `yarn` from another directory, use **--cwd** flag
+- To start a single process, use `-l` flag
+- To specify the port for a specific process, do `-p $PORT` in the process
+- To run `yarn` from another directory, use `--cwd` flag
 
 ```bash
 $> overmind start -l backend
