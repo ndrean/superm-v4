@@ -85,23 +85,22 @@ configure do
 require './app.rb'
 ```
 
-## REDIS persistance
+## REDIS persistance in `redis.conf`
 
-- dir /data
-- dbfilename dump.rdb
-- appendonly yes
+- dir /data <- volume on host
+- dbfilename dump.rdb <- RDB
+- appendonly yes <- AOF
 - appendfilename "appendonly.aof"
 
-### Redis authentification
+> Authentification
 
+```
 # redis.conf
-
 requirepass secret
 
 # app.rb
-
 Redis.new(..., password: "secret")
 
 # docker-compose.yml
-
 - REDIS_PASSWORD=secret
+```
