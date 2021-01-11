@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  react-app:
+    image: ndrean/react-app-superm:build-mobx-rr-redis
+    container_name: react-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+      # build production with node and copy in nginx html folder
+    # volumes:
+    #   - .:/app
+    #   - /app/node_modules
+    ports:
+      - 3000:3000
+
+
+  app:
+    image: ndrean/sinatra:redis
+    container_name: api
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.sinatra
+    depends_on:
+      - redis
+    ports:
+      - 9292:9292
+    
+      
+  redis:
+    image: redis:6.2-rc-alpine
+    container_name: redis
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.redis
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=secret
+    ports:
+      - 6379:6379
+    volumes:
+      - redis-data:/data/
+  
+
+volumes:
+  redis-data:
+

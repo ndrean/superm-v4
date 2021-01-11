@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  app:
+    image: ndrean/sinatra:redis
+    build:
+      context: .
+      dockerfile: Dockerfile.sinatra
+    depends_on:
+      - redis
+    ports:
+      - 9292:9292
+    
+      
+  redis:
+    image: redis:6.2-rc-alpine
+    container_name: myredis
+    build:
+      context: .
+      dockerfile: Dockerfile.redis
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=secret
+    ports:
+      - 6379:6379
+    volumes:
+      - redis-data:/data/
+  
+
+volumes:
+  redis-data:

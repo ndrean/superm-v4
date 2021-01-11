@@ -27,9 +27,10 @@ class SaveToRedis < Sinatra::Base
    set :allow_headers, "content-type,if-modified-since"
 
    configure do
-      redis_url = ENV["REDISTOGO_URL"] || "redis://localhost:6379"
+      # redis_url = ENV["REDISTOGO_URL"] || "redis://redis:6379" # overmind localhost
+      redis_url = ENV["REDISTOGO_URL"] || "redis://redis:6379" # docker
       uri = URI.parse(redis_url)
-      $redis = Redis.new(host: uri.host, port: uri.port)
+      $redis = Redis.new(host: uri.host, port: uri.port, password: "secret")
    end
 
   configure :development do
