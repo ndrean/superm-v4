@@ -91,3 +91,17 @@ require './app.rb'
 - dbfilename dump.rdb
 - appendonly yes
 - appendfilename "appendonly.aof"
+
+### Redis authentification
+
+# redis.conf
+
+requirepass secret
+
+# app.rb
+
+Redis.new(..., password: "secret")
+
+# docker-compose.yml
+
+- REDIS_PASSWORD=secret
