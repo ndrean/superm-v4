@@ -65,10 +65,9 @@ require './backend/app.rb'
 
 We will run Nginx as reverse proxy to serve React's static built files and forward requests to the app-server Puma which serves the Sinatra backend, that communicates with Redis.
 
-We will create 4 processes, **Redis**, **Nginx**, **Sinatra**, **React** and use `docker-compose` to create a network for containers to communicate.
+We will create 3 processes, **Redis**, **Nginx**, **Sinatra** and use `docker-compose` to create a network for containers to communicate.
 
-We create a **Node** container that builds the React app.
-We create an Nginx container that serves the static React files and forwards http request to the Puma app-server. This is done via a Dockerfile.
+We create a **Node** container that builds the React app. We then create an Nginx container that serves the copy of the static React files and forwards http request to the Puma app-server. This is done via a Dockerfile.
 
 We create a backend container that runs the Ruby/Sinatra api. We create the `Dockerfile.sinatra`.
 We create a Redis container with persistance on disk. We create a file `Dockerfile.redis` where we pass a `redis.conf` to set the password and save strategy.
@@ -85,3 +84,10 @@ configure do
 #config.ru
 require './app.rb'
 ```
+
+## REDIS persistance
+
+- dir /data
+- dbfilename dump.rdb
+- appendonly yes
+- appendfilename "appendonly.aof"
